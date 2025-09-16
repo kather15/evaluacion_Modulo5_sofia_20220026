@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Evaluación Módulo 5 - Katherine",
+    "slug": "evaluacion-modulo5-katherine-20220026",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/hello.webp",
+      "resizeMode": "contain",
+      "backgroundColor": "#4A90E2"
+    },
+    "platforms": ["ios", "android", "web"],
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.katherine.evaluacionmodulo5"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#4A90E2"
+      },
+      "package": "com.katherine.evaluacionmodulo5",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

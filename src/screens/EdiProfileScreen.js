@@ -16,7 +16,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 
 export default function EditProfileScreen({ navigation, route }) {
-  const { userData, onUpdate } = route.params;
+  const { userData, onUpdate } = route.params || {};
   
   const [formData, setFormData] = useState({
     nombre: userData?.nombre || '',
@@ -37,15 +37,20 @@ export default function EditProfileScreen({ navigation, route }) {
       return;
     }
 
+    if (isNaN(parseInt(edad)) || parseInt(edad) <= 0) {
+      Alert.alert('Error', 'Por favor ingresa una edad válida');
+      return;
+    }
+
     setLoading(true);
 
     try {
       const user = auth.currentUser;
       if (user) {
         await updateDoc(doc(db, 'users', user.uid), {
-          nombre,
+          nombre: nombre.trim(),
           edad: parseInt(edad),
-          especialidad,
+          especialidad: especialidad.trim(),
           updatedAt: new Date().toISOString(),
         });
 
@@ -53,7 +58,7 @@ export default function EditProfileScreen({ navigation, route }) {
           {
             text: 'OK',
             onPress: () => {
-              onUpdate(); // Actualizar datos en HomeScreen
+              if (onUpdate) onUpdate(); // Actualizar datos en HomeScreen
               navigation.goBack();
             },
           },
@@ -61,7 +66,7 @@ export default function EditProfileScreen({ navigation, route }) {
       }
     } catch (error) {
       console.error('Error updating profile:', error);
-      Alert.alert('Error', 'No se pudo actualizar la información');
+      Alert.alert('Error', 'No se pudo actualizar la información. Intenta nuevamente.');
     } finally {
       setLoading(false);
     }
@@ -107,7 +112,7 @@ export default function EditProfileScreen({ navigation, route }) {
                 <Text style={styles.label}>Correo Electrónico</Text>
                 <TextInput
                   style={[styles.input, styles.inputDisabled]}
-                  value={userData?.email || ''}
+                  value={userData?.email || auth.currentUser?.email || ''}
                   editable={false}
                 />
                 <Text style={styles.helperText}>
